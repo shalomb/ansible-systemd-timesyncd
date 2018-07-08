@@ -44,7 +44,15 @@ script:
       $distribution:$version sleep 2d
   - |
     docker exec -it $instance_name
-      sh -c "cd tests && pwd && ls -ld ./* ../* ../../* ../../../*"
+      sh -c "
+        set +e
+        pwd;
+        cd tests;
+        ls -ld ./* ../* ../../* ../../../*;
+        mount;
+        cat /proc/cmdline;
+        env | sort;
+      "
   - |
     docker exec -it $instance_name
       ./tests/env-prep.sh
