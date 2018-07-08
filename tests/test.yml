@@ -1,0 +1,10 @@
+---
+
+- name: TC1 - Ping SUTs
+  hosts: localhost
+  remote_user: root
+  pre_tasks:
+
+    - name: Ping SUTs
+      ping:
+
