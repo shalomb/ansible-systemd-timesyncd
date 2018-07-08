@@ -31,7 +31,7 @@ before_install:
 script:
   - container_id=$(mktemp -t XXXXXXXXXXXX)
   - container_id=$( basename "$container_id" )
-  - 'docker run --detach --privileged --rm -e "container=docker" --security-opt seccomp=unconfined --tmpfs /run -v /sys/fs/cgroup:/sys/fs/cgroup:ro --volume="$PWD":"$PWD":ro -w "$PWD" --name $container_id $distribution:$version sleep 2d'
+  - 'docker run --detach --privileged --rm -e "container=docker" --security-opt seccomp=unconfined --tmpfs /run -v /sys/fs/cgroup:/sys/fs/cgroup:ro --volume="$PWD":"$PWD" -w "$PWD" --name $container_id $distribution:$version sleep 2d'
   - 'docker exec -it $container_id sh -c "cd tests && pwd && ls -ld ./* ../* ../../* ../../../*"'
   - 'docker exec -it $container_id ./tests/env-prep.sh'
   - 'docker exec -it $container_id sh -c "cd tests && ./test.yml -l localhost -vv"'
