@@ -31,10 +31,26 @@ before_install:
 script:
   - instance_name=$(mktemp -t XXXXXXXXXXXX)
   - instance_name=$( basename "$instance_name" )
-  - docker run --detach --privileged --rm -e "container=docker" --security-opt seccomp=unconfined --tmpfs /run -v /sys/fs/cgroup:/sys/fs/cgroup:ro --volume="$PWD":"$PWD" -w "$PWD" --name $instance_name $distribution:$version sleep 2d
-  - docker exec -it $instance_name sh -c "cd tests && pwd && ls -ld ./* ../* ../../* ../../../*"
-  - docker exec -it $instance_name ./tests/env-prep.sh
-  - docker exec -it $instance_name sh -c "cd tests && ./test.yml -l localhost -vv"
+  - |
+    docker run
+      --detach --privileged --rm
+      --env container=docker
+      --security-opt seccomp=unconfined
+      --tmpfs /run
+      --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro
+      --volume="$PWD":"$PWD"
+      --workdir="$PWD"
+      --name $instance_name
+      $distribution:$version sleep 2d
+  - |
+    docker exec -it $instance_name
+      sh -c "cd tests && pwd && ls -ld ./* ../* ../../* ../../../*"
+  - |
+    docker exec -it $instance_name
+      ./tests/env-prep.sh
+  - |
+    docker exec -it $instance_name
+      sh -c "cd tests && ./test.yml -l localhost -vv"
 
 after_script:
   - docker stop "$instance_name"
