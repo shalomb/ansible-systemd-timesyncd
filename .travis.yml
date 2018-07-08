@@ -26,35 +26,37 @@ services:
   - docker
 
 before_install:
-  - 'sudo docker pull ${distribution}:${version}'
+  - docker pull "$distribution:$version"
 
 script:
-  - instance_name=$(mktemp -t XXXXXXXXXXXX)
-  - instance_name=$( basename "$instance_name" )
-  - docker run
-      --detach --privileged --rm
-      --env container=docker
-      --security-opt seccomp=unconfined
-      --tmpfs /run
-      --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro
-      --volume="$PWD":"$PWD"
-      --workdir="$PWD"
-      --name $instance_name
-      $distribution:$version sleep 2d
-  - docker exec -it $instance_name
+  - instance_id=$(
+      docker run
+        --detach --privileged --rm
+        --env container=docker
+        --security-opt seccomp=unconfined
+        --tmpfs /run
+        --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro
+        --volume="$PWD/tests/":"$PWD/tests/"
+        --workdir="$PWD"
+        $distribution:$version sleep 2d
+    )
+  - docker exec -it "$instance_id"
       sh -c "
         set +e;
         pwd;
-        cd tests;
         ls -ld ./* ../* ../../* ../../../*;
         mount;
         cat /proc/cmdline;
         env | sort;
       "
-  - docker exec -it $instance_name
+  - docker exec -it "$instance_id"
       ./tests/env-prep.sh
-  - docker exec -it $instance_name
-      sh -c "cd tests && ./test.yml -l localhost -vv"
+  - docker exec -it "$instance_id"
+      sh -c " ./test.yml --syntax-check "
+  - docker exec -it "$instance_id"
+      sh -c " ./test.yml --list-tasks --list-hosts --list-tags -vv "
+  - docker exec -it "$instance_id"
+      sh -c " ./test.yml -l localhost -vv "
 
 after_script:
-  - docker stop "$instance_name"
+  - docker stop "$instance_id"
