@@ -34,5 +34,5 @@ else
   curl https://bootstrap.pypa.io/get-pip.py | python
 fi
 
-pip install --upgrade ansible
+pip install --upgrade ansible==2.5.5
 
