@@ -48,6 +48,7 @@ script:
         set -xv;
         pwd;
         ls -ld ./* ../* ../../* ../../../*;
+        ps aux;
         ps -p 1
         readlink $(ps -p 1 -o command=);
         mount;
