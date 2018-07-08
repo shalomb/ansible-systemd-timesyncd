@@ -6,7 +6,7 @@ set -xv
 # setup
 if type -P apt; then
   apt-get -qq -y update
-  apt-get install -y --no-install-recommends \
+  apt-get install -y --no-install-recommends --no-install-suggests \
     ca-certificates curl dbus python-minimal python-urllib3
 
 elif type -P zypper; then
