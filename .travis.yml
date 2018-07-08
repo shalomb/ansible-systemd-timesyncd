@@ -31,7 +31,7 @@ before_install:
 script:
   - instance_name=$(mktemp -t XXXXXXXXXXXX)
   - instance_name=$( basename "$instance_name" )
-  - |
+  - >
     docker run
       --detach --privileged --rm
       --env container=docker
@@ -42,7 +42,7 @@ script:
       --workdir="$PWD"
       --name $instance_name
       $distribution:$version sleep 2d
-  - |
+  - >
     docker exec -it $instance_name
       sh -c "
         set +e
@@ -53,10 +53,10 @@ script:
         cat /proc/cmdline;
         env | sort;
       "
-  - |
+  - >
     docker exec -it $instance_name
       ./tests/env-prep.sh
-  - |
+  - >
     docker exec -it $instance_name
       sh -c "cd tests && ./test.yml -l localhost -vv"
 
