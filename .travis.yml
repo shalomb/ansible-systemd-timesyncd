@@ -36,8 +36,8 @@ script:
         --security-opt seccomp=unconfined
         --tmpfs /run
         --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro
-        --volume="$PWD/tests/":"$PWD/tests/"
-        --workdir="$PWD"
+        --volume="$PWD":"$PWD"
+        --workdir="$PWD/tests/"
         $distribution:$version sleep 2d
     )
   - docker exec -it "$instance_id"
@@ -50,7 +50,7 @@ script:
         env | sort;
       "
   - docker exec -it "$instance_id"
-      ./tests/env-prep.sh
+      ./env-prep.sh
   - docker exec -it "$instance_id"
       sh -c " ./test.yml --syntax-check "
   - docker exec -it "$instance_id"
