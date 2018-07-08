@@ -49,7 +49,7 @@ script:
         pwd;
         ls -ld ./* ../* ../../* ../../../*;
         ps aux;
-        ps -p 1
+        ps -p 1;
         readlink $(ps -p 1 -o command=);
         mount;
         cat /proc/cmdline;
