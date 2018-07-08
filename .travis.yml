@@ -45,6 +45,7 @@ script:
   - docker exec -it "$instance_id"
       sh -c "
         set +e;
+        set -xv;
         pwd;
         ls -ld ./* ../* ../../* ../../../*;
         ps -p 1
