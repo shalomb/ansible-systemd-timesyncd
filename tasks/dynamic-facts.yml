@@ -1,0 +1,24 @@
+---
+
+# tasks file for systemd-timesync/dynamic-facts
+
+- name: Register is_under_systemd
+  shell: readlink $(ps -p 1 -o command=)
+  register: pid1_command
+  changed_when: False
+  always_run: True
+  ignore_errors: True
+  tags:
+    - dynamic-fact
+    - fact
+    - service
+
+- name: Set fact is_under_systemd
+  set_fact:
+    is_under_systemd:
+      "{{ (pid1_command.stdout.find('systemd') != -1) | bool }}"
+  tags:
+    - dynamic-fact
+    - fact
+    - service
+

@@ -10,3 +10,9 @@
     - name: Ping SUTs
       ping:
 
+- name: TC2 - Run ansible-systemd-timesync role
+  hosts: localhost
+  remote_user: root
+  roles:
+  - ansible-systemd-timesync
+

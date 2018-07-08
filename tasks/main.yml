@@ -1,2 +1,5 @@
 ---
+
 # tasks file for systemd-timesync
+
+- include: dynamic-facts.yml
