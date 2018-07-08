@@ -47,6 +47,8 @@ script:
         set +e;
         pwd;
         ls -ld ./* ../* ../../* ../../../*;
+        ps -p 1
+        readlink $(ps -p 1 -o command=);
         mount;
         cat /proc/cmdline;
         env | sort;
