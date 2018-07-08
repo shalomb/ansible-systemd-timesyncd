@@ -31,12 +31,14 @@ before_install:
 script:
   - instance_id=$(
       docker run
-        --detach --privileged --rm
+        --detach
         --env container=docker
+        --privileged
+        --rm
         --security-opt seccomp=unconfined
         --tmpfs /run
-        --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro
         --volume="$PWD":"$PWD"
+        --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro
         --workdir="$PWD/tests/"
         $distribution:$version sleep 2d
     )
