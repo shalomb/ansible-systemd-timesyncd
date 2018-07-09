@@ -7,7 +7,8 @@ set -xv
 if type -P apt; then
   apt-get -qq -y update
   apt-get install -y --no-install-recommends --no-install-suggests \
-    ca-certificates curl dbus procps python-minimal python-urllib3
+    ca-certificates curl dbus procps python-minimal python-urllib3 \
+    tzdata
 
 elif type -P zypper; then
   zypper -n install curl procps python python-xml
@@ -36,6 +37,7 @@ fi
 
 pip install --upgrade ansible==2.5.5
 
+systemctl --version
 
 sed -r -i '/ConditionVirtualization=/d' \
   /lib/systemd/system/systemd-timesyncd.service
