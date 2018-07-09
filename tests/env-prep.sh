@@ -5,6 +5,7 @@ set -xv
 
 # setup
 if type -P apt; then
+  export DEBIAN_FRONTEND=noninteractive
   apt-get -qq -y update
   apt-get install -y --no-install-recommends --no-install-suggests \
     ca-certificates curl dbus procps python-minimal python-urllib3 \
