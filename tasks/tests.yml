@@ -29,9 +29,6 @@
     - assertion: "timedatectl_status.stdout | regex_search('synchronized: yes')"
       message:   "NTP does not appear to be synchronized"
 
-    - assertion: "timedatectl_status.stdout | regex_search('systemd-timesyncd.service active: yes')"
-      message:   "systemd-timesyncd.service is not active/running"
-
     - assertion: "timedatectl_status.stdout | regex_search('Time zone: {{ default.timezone }}')"
       message:   "Timezone does not match {{ default.timezone }}"
 
