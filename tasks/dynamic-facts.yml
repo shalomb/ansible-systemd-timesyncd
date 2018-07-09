@@ -3,7 +3,7 @@
 # tasks file for systemd-timesync/dynamic-facts
 
 - name: Register is_under_systemd
-  shell: readlink $(ps -p 1 -o command=)
+  shell: readlink -f $(ps -p 1 -o command= | awk '{print $1}')
   register: pid1_command
   changed_when: False
   always_run: True

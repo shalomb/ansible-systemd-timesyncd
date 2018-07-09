@@ -40,7 +40,7 @@ script:
         --volume="$PWD":"$PWD"
         --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro
         --workdir="$PWD/tests/"
-        $distribution:$version sleep 2d
+        $distribution:$version
     )
   - docker exec -it "$instance_id"
       sh -c "
