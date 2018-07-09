@@ -14,7 +14,7 @@ elif type -P zypper; then
   zypper -n install curl procps python python-xml
 
 elif type -P dnf; then
-  dnf install -y curl dbus procps python
+  dnf install -y curl dbus procps python tzdata
 
 elif type -P yum; then
   source /etc/os-release
@@ -24,7 +24,7 @@ elif type -P yum; then
     rpm -ivh /tmp/epel.rpm
     yum --disablerepo=* --enablerepo=epel install -y procps python-pip
   else
-    yum install -y curl dbus procps python
+    yum install -y curl dbus procps python tzdata
   fi
 
 fi
