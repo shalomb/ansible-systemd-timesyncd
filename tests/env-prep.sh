@@ -36,3 +36,16 @@ fi
 
 pip install --upgrade ansible==2.5.5
 
+
+sed -r -i '/ConditionVirtualization=/d' \
+  /lib/systemd/system/systemd-timesyncd.service
+
+sed -r -i '/ConditionVirtualization=/d' \
+  /etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service || true
+
+systemctl daemon-reload
+systemctl enable   systemd-timesyncd.service
+systemctl restart  systemd-timesyncd.service
+
+timedatectl status
+
