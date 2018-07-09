@@ -1,5 +1,27 @@
 ---
 
-# tasks file for systemd-timesync
+# tasks file for systemd-timesyncd/main
 
 - include: dynamic-facts.yml
+  tags:
+    - always
+
+- name: Assert environment
+  assert:
+    that: '{{ item.assertion }}'
+    msg:  '{{ item.message   }}'
+  with_items:
+    - assertion: '{{ is_under_systemd }}==True'
+      message:   'systemd is not enabled/running'
+  tags:
+    - always
+    - assert
+
+- include: configure.yml
+  tags:
+    - configure
+
+- include: tests.yml
+  tags:
+    - test
+

@@ -45,3 +45,7 @@ Thumbs.db
 tags
 .tags
 *.tmp*
+
+# ansible
+*.retry
+**/*.retry

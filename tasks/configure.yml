@@ -1,0 +1,125 @@
+---
+
+# tasks file for systemd-timesyncd/configure
+
+# NOTE
+# This is needed for the container-enabled role
+# Containers and slim images may not have dbus installed.
+- name: Install dbus systemd dependency
+  apt:
+    name:          '{{ item }}'
+    state:         present
+    update_cache:  yes
+  when:
+    - ansible_os_family == 'Debian'
+  with_items:
+    - dbus
+  tags:
+    - dbus
+    - systemd
+    - timesyncd
+    - timesyncd
+
+# NOTE needed when systemd <= 232
+- name: Set timezone in /etc/localtime
+  file:
+    src:    /usr/share/zoneinfo/{{ default.timezone }}
+    dest:   /etc/localtime
+    state:  link
+    force:  yes
+  notify:
+    - reconfigure timezone
+    - reload timesyncd ntp
+  tags:
+    - time
+    - timezone
+    - localtime
+
+- name: Set timezone in /etc/timezone
+  lineinfile:
+    dest:    /etc/timezone
+    regexp:  '{{ item.regexp }}'
+    line:    '{{ item.line   }}'
+    insertbefore: EOF
+    create:  True
+    state:   present
+  with_items:
+
+    - regexp: '^.*$'
+      line:   '{{ default.timezone }}'
+
+  notify:
+    - reconfigure timezone
+    - reload timesyncd ntp
+  tags:
+    - time
+
+# NOTE
+# This task here is a fallback only and should succeed if the
+# previous two completed successfully
+- name: Set timezone via systemd
+  command:
+    timedatectl set-timezone {{ default.timezone }}
+  changed_when: False
+  when: is_under_systemd
+  tags:
+    - time
+    - timezone
+    - timesyncd
+
+- name: Set NTP configuration in /etc/systemd/timesyncd.conf
+  lineinfile:
+    dest:    /etc/systemd/timesyncd.conf
+    regexp:  '{{ item.regexp }}'
+    line:    '{{ item.line   }}'
+    insertafter: '\[Time\]'
+    backrefs: Yes
+    create:   True
+    state:    present
+  with_items:
+
+    - regexp: '^\s*#?\s*(NTP=).*$'
+      line:   'NTP={{ ntp_servers | join(" ") }}'
+
+    - regexp: '^\s*#?\s*(FallbackNTP=).*$'
+      line:   'FallbackNTP={{ fallback_ntp_servers | join(" ") }}'
+
+    - regexp: '^\s*#?\s*(RootDistanceMaxSec=).*$'
+      line:   'RootDistanceMaxSec={{ root_distance_max_sec }}'
+
+    - regexp: '^\s*#?\s*(PollIntervalMinSec=).*$'
+      line:   'PollIntervalMinSec={{ poll_interval_min_sec }}'
+
+    - regexp: '^\s*#?\s*(PollIntervalMaxSec=).*$'
+      line:   'PollIntervalMaxSec={{ poll_interval_max_sec }}'
+
+  notify:
+    - enable timesyncd
+    - reload timesyncd ntp
+    - restart timesyncd
+    - sync RTC
+  tags:
+    - ntp
+    - time
+    - timesyncd
+    - timesyncd-conf
+
+- name: Enable systemd-timesyncd unit
+  service:
+    name:    systemd-timesyncd
+    enabled: yes
+  notify:
+    - enable timesyncd
+    - reload timesyncd ntp
+    - restart timesyncd
+    - sync RTC
+  tags:
+    - service
+    - timesyncd
+
+- name: Flush handlers
+  meta: flush_handlers
+  tags:
+    - service
+    - handlers
+
