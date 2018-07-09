@@ -5,10 +5,6 @@ language: python
 sudo: required
 
 env:
-  - distribution: solita/centos-systemd
-    version:      7
-  - distribution: solita/centos-systemd
-    version:      latest
   - distribution: jrei/systemd-debian
     version:      9
   - distribution: jrei/systemd-debian
