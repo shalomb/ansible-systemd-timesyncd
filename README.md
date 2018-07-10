@@ -1,38 +1,78 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+Ansible role to configure the
+[systemd-timesyncd](https://www.freedesktop.org/software/systemd/man/systemd-timesyncd.service.html)
+service setting S/NTP and timezone parameters.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+* systemd >= 2.9
+* systemd-timesyncd.service unit
+* dbus
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+```
+config:
+  timezone: 'Africa/Libreville'
+  ntp_servers:
+    - 0.pool.ntp.org
+    - 1.pool.ntp.org
+    - 2.pool.ntp.org
+    - 3.pool.ntp.org
+  root_distance_max_sec: 5
+  poll_interval_max_sec: 2048
+  poll_interval_min_sec: 32
+```
+
+Also see [defaults/main.yml](defaults/main.yml) for more information
+on these parameters.
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None
+
+Conflicts
+---------
+
+This role will likely fail to succeed in configuring `timesyncd` if
+the following services are enabled/running on the system.
+
+* ntp/ntpd - reference implementation
+* chrony/chronyd
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+```
+- name: TC2 - Run ansible-systemd-timesyncd role
+  hosts: localhost
+  remote_user: root
+  roles:
+  - role: ansible-systemd-timesyncd
+    config:
+      timezone: 'Africa/Libreville'
+```
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+References
+----------
+
+* [systemd-timesyncd.service](https://www.freedesktop.org/software/systemd/man/systemd-timesyncd.service.html)
+* [timesyncd.conf](https://www.freedesktop.org/software/systemd/man/timesyncd.conf.html#)
+* [timedatectl](https://www.freedesktop.org/software/systemd/man/timedatectl.html#)
+* [Time Synchronization with NTP and systemd](https://feeding.cloud.geek.nz/posts/time-synchronization-with-ntp-and-systemd/)
+* [systemd/timesyncd.c](https://github.com/systemd/systemd/blob/master/src/timesync/timesyncd.c)
 
 License
 -------
 
-BSD
+Apache License, v2.0
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Shalom Bhooshi
