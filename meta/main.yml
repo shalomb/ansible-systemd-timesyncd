@@ -29,7 +29,3 @@ galaxy_info:
     - ntp
     - systemd-timesyncd
     - timesyncd
-
-dependencies:
-  - systemd > 219
-  - dbus
