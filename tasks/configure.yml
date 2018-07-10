@@ -94,7 +94,6 @@
       line:   'PollIntervalMaxSec={{ poll_interval_max_sec }}'
 
   notify:
-    - enable timesyncd
     - reload timesyncd ntp
     - restart timesyncd
     - sync RTC

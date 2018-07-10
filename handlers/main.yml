@@ -2,10 +2,6 @@
 
 # handlers file for systemd-timesyncd
 
-- name:    enable timesyncd
-  command:
-    systemctl enable systemd-timesyncd.service
-
 - name:    reload timesyncd ntp
   shell:
     timedatectl set-ntp false;
