@@ -47,8 +47,9 @@ sed -r -i '/ConditionVirtualization=/d' \
   /etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service || true
 
 systemctl daemon-reload
-systemctl enable   systemd-timesyncd.service
-systemctl restart  systemd-timesyncd.service
+if systemctl enable   systemd-timesyncd.service; then
+  systemctl restart  systemd-timesyncd.service
+fi
 
 timedatectl status
 
