@@ -5,15 +5,17 @@ set -xv
 
 # setup
 if type -P apt; then
+  export DEBIAN_FRONTEND=noninteractive
   apt-get -qq -y update
   apt-get install -y --no-install-recommends --no-install-suggests \
-    ca-certificates curl dbus procps python-minimal python-urllib3
+    ca-certificates curl dbus procps python-minimal python-urllib3 \
+    tzdata
 
 elif type -P zypper; then
   zypper -n install curl procps python python-xml
 
 elif type -P dnf; then
-  dnf install -y curl procps python
+  dnf install -y curl dbus procps python tzdata
 
 elif type -P yum; then
   source /etc/os-release
@@ -23,7 +25,7 @@ elif type -P yum; then
     rpm -ivh /tmp/epel.rpm
     yum --disablerepo=* --enablerepo=epel install -y procps python-pip
   else
-    yum install -y curl procps python
+    yum install -y curl dbus procps python tzdata
   fi
 
 fi
@@ -35,4 +37,19 @@ else
 fi
 
 pip install --upgrade ansible==2.5.5
+
+systemctl --version
+
+sed -r -i '/ConditionVirtualization=/d' \
+  /lib/systemd/system/systemd-timesyncd.service
+
+sed -r -i '/ConditionVirtualization=/d' \
+  /etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service || true
+
+systemctl daemon-reload
+if systemctl enable   systemd-timesyncd.service; then
+  systemctl restart  systemd-timesyncd.service
+fi
+
+timedatectl status
 

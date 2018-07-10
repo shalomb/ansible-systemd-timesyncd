@@ -1,2 +1,27 @@
 ---
-# defaults file for systemd-timesync
+
+# defaults file for systemd-timesyncd
+
+ntp_servers:
+  - 0.pool.ntp.org
+  - 1.pool.ntp.org
+  - 2.pool.ntp.org
+  - 3.pool.ntp.org
+
+fallback_ntp_servers:
+  - 0.pool.ntp.org
+  - 1.pool.ntp.org
+  - 2.pool.ntp.org
+  - 3.pool.ntp.org
+
+root_distance_max_sec: 5
+poll_interval_max_sec: 2048
+poll_interval_min_sec: 32
+
+default:
+  fallback_ntp_servers:  '{{ config.fallback_ntp_servers  | default(fallback_ntp_servers) }}'
+  ntp_servers: '{{ config.ntp_servers | default(ntp_servers) }}'
+  root_distance_max_sec: '{{ config.root_distance_max_sec | default(root_distance_max_sec) }}'
+  poll_interval_max_sec: '{{ config.poll_interval_max_sec | default(poll_interval_max_sec) }}'
+  poll_interval_min_sec: '{{ config.poll_interval_min_sec | default(poll_interval_min_sec) }}'
+  timezone:    '{{ config.timezone | default("UTC") }}'

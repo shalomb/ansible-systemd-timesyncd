@@ -1,2 +1,4 @@
 ---
-# vars file for systemd-timesync
+
+# vars file for systemd-timesyncd
+

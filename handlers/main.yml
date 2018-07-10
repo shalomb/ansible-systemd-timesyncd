@@ -1,2 +1,30 @@
 ---
-# handlers file for systemd-timesync
+
+# handlers file for systemd-timesyncd
+
+- name:    reload timesyncd ntp
+  shell:
+    timedatectl set-ntp false || true;
+    timedatectl set-ntp true || true;
+
+- name:    reload timesyncd
+  service:
+    name:  systemd-timesyncd
+    state: reloaded
+
+- name:    restart timesyncd
+  service:
+    name:  systemd-timesyncd
+    state: restarted
+
+- name:    reconfigure timezone
+  shell:
+    DEBIAN_FRONTEND=noninteractive \
+      dpkg-reconfigure --frontend noninteractive tzdata
+  when:
+    - ansible_os_family == 'Debian'
+
+- name:    sync RTC
+  command:
+    timedatectl set-local-rtc 0
+
