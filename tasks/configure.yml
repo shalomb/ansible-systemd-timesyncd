@@ -118,7 +118,7 @@
   service:
     name:    systemd-timesyncd
     enabled: yes
-  when: timesyncd_is_enabled.rc != 0
+  when: timesyncd_is_enabled.stdout != 'enabled'
   notify:
     - enable timesyncd
     - reload timesyncd ntp
