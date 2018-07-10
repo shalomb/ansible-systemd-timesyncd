@@ -16,5 +16,5 @@
   roles:
   - role: ansible-systemd-timesyncd
     config:
-      timezone: 'Europe/Bratislava'
+      timezone: 'Africa/Libreville'
 

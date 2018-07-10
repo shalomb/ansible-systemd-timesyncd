@@ -2,6 +2,9 @@
 
 # defaults file for systemd-timesyncd
 
+# See timesyncd.conf(5) for information on configuration parameters
+# [timesyncd.conf](https://www.freedesktop.org/software/systemd/man/timesyncd.conf.html#)
+
 ntp_servers:
   - 0.pool.ntp.org
   - 1.pool.ntp.org
