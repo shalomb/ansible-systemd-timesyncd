@@ -104,10 +104,21 @@
     - timesyncd
     - timesyncd-conf
 
+- name: Test if systemd-timesyncd unit is enabled
+  command:
+    systemctl is-enabled systemd-timesyncd
+  register: timesyncd_is_enabled
+  failed_when: False
+  changed_when: False
+  tags:
+    - service
+    - timesyncd
+
 - name: Enable systemd-timesyncd unit
   service:
     name:    systemd-timesyncd
     enabled: yes
+  when: timesyncd_is_enabled.rc != 0
   notify:
     - enable timesyncd
     - reload timesyncd ntp
