@@ -1,0 +1,20 @@
+#!/usr/bin/env ansible-playbook
+
+---
+
+- name: TC1 - Ping SUTs
+  hosts: localhost
+  remote_user: root
+  pre_tasks:
+
+    - name: Ping SUTs
+      ping:
+
+- name: TC2 - Run ansible-systemd-timesyncd role
+  hosts: localhost
+  remote_user: root
+  roles:
+  - role: ansible-systemd-timesyncd
+    config:
+      timezone: 'Europe/Bratislava'
+
