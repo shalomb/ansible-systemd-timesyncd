@@ -15,6 +15,7 @@ elif type -P zypper; then
   zypper -n install curl procps python python-xml
 
 elif type -P dnf; then
+  dnf remove -y bash-completion
   dnf install -y curl dbus procps python tzdata
 
 elif type -P yum; then
