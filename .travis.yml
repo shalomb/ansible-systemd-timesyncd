@@ -9,8 +9,6 @@ env:
     version:      9
   - distribution: jrei/systemd-debian
     version:      latest
-  - distribution: fedora/systemd-systemd
-    version:      latest
   - distribution: solita/ubuntu-systemd
     version:      xenial
   - distribution: solita/ubuntu-systemd
