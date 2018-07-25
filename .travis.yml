@@ -60,3 +60,7 @@ script:
 
 after_script:
   - docker stop "$instance_id"
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
+
