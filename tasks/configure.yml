@@ -133,3 +133,16 @@
     - service
     - handlers
 
+- name: Wait until systemd-timesyncd has synchronized with NTP servers
+  command: systemctl status systemd-timesyncd
+  retries: 60
+  delay:   3
+  ignore_errors: True
+  changed_when: False
+  register: task_result
+  until:
+    - task_result.rc == 0
+    - task_result.stdout is search('Synchronized to time server')
+  tags:
+    - service
+
