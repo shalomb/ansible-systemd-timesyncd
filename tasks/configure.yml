@@ -80,19 +80,19 @@
   with_items:
 
     - regexp: '^\s*#?\s*(NTP=).*$'
-      line:   'NTP={{ ntp_servers | join(" ") }}'
+      line:   'NTP={{ default.ntp_servers | join(" ") }}'
 
     - regexp: '^\s*#?\s*(FallbackNTP=).*$'
-      line:   'FallbackNTP={{ fallback_ntp_servers | join(" ") }}'
+      line:   'FallbackNTP={{ default.fallback_ntp_servers | join(" ") }}'
 
     - regexp: '^\s*#?\s*(RootDistanceMaxSec=).*$'
-      line:   'RootDistanceMaxSec={{ root_distance_max_sec }}'
+      line:   'RootDistanceMaxSec={{ default.root_distance_max_sec }}'
 
     - regexp: '^\s*#?\s*(PollIntervalMinSec=).*$'
-      line:   'PollIntervalMinSec={{ poll_interval_min_sec }}'
+      line:   'PollIntervalMinSec={{ default.poll_interval_min_sec }}'
 
     - regexp: '^\s*#?\s*(PollIntervalMaxSec=).*$'
-      line:   'PollIntervalMaxSec={{ poll_interval_max_sec }}'
+      line:   'PollIntervalMaxSec={{ default.poll_interval_max_sec }}'
 
   notify:
     - reload timesyncd ntp
