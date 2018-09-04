@@ -1,7 +1,7 @@
-v1.0.6 - 2018-07-30T14:10:10
+v1.0.4 - 2018-07-30T14:10:10
 ----------------------------
 
-* Fix use of default values in configure task
+* Fix use of default values in configure tasks
 
 v1.0.3 - 2018-07-15T21:44:23
 ----------------------------
