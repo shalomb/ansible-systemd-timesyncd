@@ -49,7 +49,8 @@ sed -r -i '/ConditionVirtualization=/d' \
 
 systemctl daemon-reload
 if systemctl enable   systemd-timesyncd.service; then
-  systemctl restart  systemd-timesyncd.service
+  systemctl restart  systemd-timesyncd.service ||
+  { systemctl status   systemd-timesyncd.service; journalctl -xe; }
 fi
 
 timedatectl status
