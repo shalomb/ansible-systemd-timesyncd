@@ -1,3 +1,12 @@
+v1.0.9 - 2020-08-04T10:30:05
+----------------------------
+
+* Switch to Python 3 (Closes #2)
+* Switch to ansible 2.8 for tests in Travis CI
+  (we are not able to do > 2.8 due to bug in python < 3.7
+  (https://github.com/ansible/ansible/issues/21982#issuecomment-282778843)
+  and this is not available in <= Debian Stretch, Ubuntu Bionic) (Opens #3)
+
 v1.0.6 - 2018-07-30T14:10:10
 ----------------------------
 
