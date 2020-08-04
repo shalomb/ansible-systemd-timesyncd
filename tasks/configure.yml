@@ -7,14 +7,13 @@
 # Containers and slim images may not have dbus installed.
 - name: Install dbus systemd dependency
   apt:
-    name:          '{{ item }}'
+    name:
+      - dbus
     state:         present
     update_cache:  yes
   when:
     - ansible_virtualization_type == 'docker'
     - ansible_os_family == 'Debian'
-  with_items:
-    - dbus
   tags:
     - dbus
     - systemd

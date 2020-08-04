@@ -52,7 +52,7 @@ script:
   - docker exec -it "$instance_id"
       sh -c " ./test.yml --syntax-check "
   - docker exec -it "$instance_id"
-      sh -c " ./test.yml --list-tasks --list-hosts --list-tags -vv "
+      sh -c " ./test.yml --list-tasks --list-tags -vv "
   - docker exec -it "$instance_id"
       sh -c " ./test.yml -l localhost -vvvv "
 

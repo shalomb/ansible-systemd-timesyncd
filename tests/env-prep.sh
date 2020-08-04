@@ -8,7 +8,8 @@ if type -P apt; then
   export DEBIAN_FRONTEND=noninteractive
   apt-get -qq -y update
   apt-get install -y --no-install-recommends --no-install-suggests \
-    ca-certificates curl dbus procps python-minimal python-urllib3 \
+    ca-certificates curl dbus procps \
+    python3-minimal python3-setuptools python3-wheel \
     tzdata
 
 elif type -P zypper; then
@@ -31,13 +32,15 @@ elif type -P yum; then
 
 fi
 
-if type -P pip; then
-  pip install --upgrade pip
+if type -P pip3; then
+  pip3 install --upgrade pip
 else
-  curl https://bootstrap.pypa.io/get-pip.py | python
+  curl https://bootstrap.pypa.io/get-pip.py | python3
 fi
 
-pip install --upgrade ansible==2.5.5
+pip3 install --upgrade ansible==2.8.0
+
+ansible --version
 
 systemctl --version
 
