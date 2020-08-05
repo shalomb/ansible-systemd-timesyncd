@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/shalomb/ansible-systemd-timesyncd.svg?branch=master)](https://travis-ci.org/shalomb/ansible-systemd-timesyncd)
+
 Role Name
 =========
 
@@ -57,6 +59,8 @@ Example Playbook
     config:
       timezone: 'Africa/Libreville'
 ```
+
+Also see [tests/](./tests/test.yml) for how tests are run.
 
 References
 ----------
