@@ -36,7 +36,9 @@ on these parameters.
 Dependencies
 ------------
 
-None
+- Debian-based running systemd-timesyncd
+  (NOTE: systemd on the Redhat family (RHEL/Fedora/CentOs) is not compiled
+   with timesyncd for NTP syncrhonization and uses chrony instelad)
 
 Conflicts
 ---------
