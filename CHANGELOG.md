@@ -1,3 +1,10 @@
+v1.0.10 - 2020-08-04T10:30:05
+-----------------------------
+
+* Extend coverage to Debian 10, Debian Unstable, Ubuntu 20.04/Focal
+* Improve handling of python3 changes
+* Improve desired state testing
+
 v1.0.9 - 2020-08-04T10:30:05
 ----------------------------
 
