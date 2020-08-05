@@ -1,4 +1,9 @@
-v1.0.10 - 2020-08-04T10:30:05
+v1.0.11 - 2020-08-05T17:09:08
+-----------------------------
+
+* Fix for break caused by pip not present as a module under python3?
+
+v1.0.10 - 2020-08-05T16:59:04
 -----------------------------
 
 * Extend coverage to Debian 10, Debian Unstable, Ubuntu 20.04/Focal
