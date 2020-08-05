@@ -7,10 +7,16 @@ sudo: required
 env:
   - distribution: jrei/systemd-debian
     version:      9
+  - distribution: jrei/systemd-debian
+    version:      10
+  - distribution: jrei/systemd-debian
+    version:      latest
   - distribution: solita/ubuntu-systemd
     version:      xenial
   - distribution: solita/ubuntu-systemd
     version:      bionic
+  - distribution: unop/ubuntu-systemd
+    version:      focal
   - distribution: solita/ubuntu-systemd
     version:      latest
 
@@ -30,7 +36,8 @@ script:
         --security-opt seccomp=unconfined
         --tmpfs /run
         --volume="$PWD":"$PWD"
-        --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro
+        --volume="/var/run/dbus:/var/run/dbus:ro"
+        --volume="/sys/fs/cgroup:/sys/fs/cgroup:ro"
         --workdir="$PWD/tests/"
         $distribution:$version
     )

@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/shalomb/ansible-systemd-timesyncd.svg?branch=master)](https://travis-ci.org/shalomb/ansible-systemd-timesyncd)
+
 Role Name
 =========
 
@@ -34,7 +36,9 @@ on these parameters.
 Dependencies
 ------------
 
-None
+- Debian-based running systemd-timesyncd
+  (NOTE: systemd on the Redhat family (RHEL/Fedora/CentOs) is not compiled
+   with timesyncd for NTP syncrhonization and uses chrony instelad)
 
 Conflicts
 ---------
@@ -57,6 +61,8 @@ Example Playbook
     config:
       timezone: 'Africa/Libreville'
 ```
+
+Also see [tests/](./tests/test.yml) for how tests are run.
 
 References
 ----------
