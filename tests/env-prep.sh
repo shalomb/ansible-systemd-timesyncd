@@ -35,7 +35,7 @@ fi
 
 if type -P pip3; then
   pip3 install --upgrade pip
-elif type -P python3; then
+elif python3 -c 'import pip'; then
   python3 -m pip install -U pip
 else
   curl https://bootstrap.pypa.io/get-pip.py | python3
