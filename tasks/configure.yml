@@ -61,7 +61,7 @@
   command:
     timedatectl set-timezone {{ default.timezone }}
   changed_when: False
-  when: is_under_systemd
+  when: is_under_systemd == True
   tags:
     - time
     - timezone
@@ -142,7 +142,7 @@
   register: task_result
   until:
     - task_result.rc == 0
-    - task_result.stdout is search('Synchronized to time server')
+    - task_result.stdout is search('[Ss]ynchroniz.* to time server')
   tags:
     - service
 
