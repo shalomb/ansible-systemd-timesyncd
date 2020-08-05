@@ -7,6 +7,10 @@ sudo: required
 env:
   - distribution: jrei/systemd-debian
     version:      9
+  - distribution: jrei/systemd-debian
+    version:      10
+  - distribution: jrei/systemd-debian
+    version:      latest
   - distribution: solita/ubuntu-systemd
     version:      xenial
   - distribution: solita/ubuntu-systemd
