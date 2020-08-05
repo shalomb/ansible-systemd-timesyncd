@@ -61,7 +61,7 @@
   command:
     timedatectl set-timezone {{ default.timezone }}
   changed_when: False
-  when: is_under_systemd
+  when: is_under_systemd == True
   tags:
     - time
     - timezone
@@ -134,7 +134,7 @@
     - handlers
 
 - name: Wait until systemd-timesyncd has synchronized with NTP servers
-  command: timedatectl timesync-status
+  command: systemctl status systemd-timesyncd
   retries: 60
   delay:   3
   ignore_errors: True
@@ -142,9 +142,7 @@
   register: task_result
   until:
     - task_result.rc == 0
-    - task_result.stdout is search('Server. \d+\.')
-    - task_result.stdout is search('Stratum. \d+')
-    - task_result.stdout is search('Root distance. \d+')
+    - task_result.stdout is search('[Ss]ynchroniz.* to time server')
   tags:
     - service
 

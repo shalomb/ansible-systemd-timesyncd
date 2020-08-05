@@ -31,12 +31,15 @@
 
 - name: Assert systemd-timesyncd status
   assert:
-    that: '{{ item.assertion }}'
-    msg:  '{{ item.message   }}'
+    that: 'timesyncd_status.stdout | regex_search("{{ item.regex }}")'
+    msg:  '{{ item.fail_msg }}'
   with_items:
 
-    - assertion: "timesyncd_status.stdout | regex_search('Active:.*running')"
-      message:   'systemd-timesyncd does not appear to be running'
+    - regex:    'Active:.*running'
+      fail_msg: 'systemd-timesyncd does not appear to be running'
+
+    - regex:    'Started Network Time Synchronization'
+      fail_msg: 'systemd-timesyncd does not appear to have started NTP Synchronization'
 
   tags:
     - test
@@ -48,23 +51,23 @@
     msg:  '{{ item.fail_msg }}'
   with_items:
 
-    - regex:    'NTP service: active'
-      fail_msg: 'timedatectl status does not report NTP service as active'
-
     - regex:    'synchronized: yes'
       fail_msg: 'timedatectl status does not report timesyncd as NTP synchronized'
 
-    - regex:    'Time zone:s {{ default.timezone }}'
+    - regex:    'Time zone: {{ default.timezone }}'
       fail_msg: 'timedatectl status expects timezone to be {{ default.timezone }}'
 
   tags:
     - test
     - assert
 
+# Note: systemd >= 242 only
 - name: Assert timedatectl timesync-status
   assert:
     that: 'timedatectl_timesync_status.stdout | regex_search("{{ item.regex }}")'
     msg:  '{{ item.fail_msg }}'
+  when:
+    timedatectl_timesync_status.rc == 0
   with_items:
 
     - regex:    'Server. \d+'
@@ -82,3 +85,4 @@
   tags:
     - test
     - assert
+
