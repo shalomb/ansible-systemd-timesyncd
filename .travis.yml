@@ -27,6 +27,9 @@ before_install:
   - docker pull "$distribution:$version"
 
 script:
+
+  # NOTE: We can't put these in before_script as we need to reference
+  # $instance_id in our tasks that use docker exec
   - instance_id=$(
       docker run
         --detach
@@ -41,6 +44,7 @@ script:
         --workdir="$PWD/tests/"
         $distribution:$version
     )
+
   - docker exec -it "$instance_id"
       sh -c "
         set +e;
@@ -54,17 +58,23 @@ script:
         cat /proc/cmdline;
         env | sort;
       "
+
   - docker exec -it "$instance_id"
       ./env-prep.sh
+
   - docker exec -it "$instance_id"
       sh -c " ./test.yml --syntax-check "
+
   - docker exec -it "$instance_id"
       sh -c " ./test.yml --list-tasks --list-tags -vv "
+
   - docker exec -it "$instance_id"
       sh -c " ./test.yml -l localhost -vvvv "
 
 after_script:
   - docker stop "$instance_id"
+  - docker kill "$instance_id" || true
+  - timedatectl status
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
