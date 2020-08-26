@@ -1,0 +1,3 @@
+[filter "clean"]
+clean = "tr -d d"
+smudge = cat
