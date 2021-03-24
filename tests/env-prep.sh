@@ -9,7 +9,7 @@ if type -P apt; then
   apt-get -qq -y update
   apt-get install -y --no-install-recommends --no-install-suggests \
     ca-certificates curl dbus procps \
-    python3-minimal pyton3-pip python3-setuptools python3-wheel \
+    python3-minimal python3-pip python3-setuptools python3-wheel \
     tzdata
 
 elif type -P zypper; then
@@ -32,14 +32,16 @@ elif type -P yum; then
 
 fi
 
+pyver=$(python3 -c 'import sys;print(sys.version[0:3])')
 
-if type -P pip3; then
-  pip3 install --upgrade pip
-elif python3 -c 'import pip'; then
-  python3 -m pip install -U pip
+if [[ $pyver == '3.5' ]]; then
+  # NOTE: Python 3.5 is to be deprecated on September 13th, 2020.
+  curl -fsSL https://bootstrap.pypa.io/pip/3.5/get-pip.py | python3
 else
-  curl https://bootstrap.pypa.io/get-pip.py | python3
+  curl -fsSL https://bootstrap.pypa.io/get-pip.py | python3
 fi
+
+python3 -m pip install -U pip
 
 pip3 install --upgrade ansible==2.8.0
 
@@ -60,4 +62,3 @@ if systemctl enable   systemd-timesyncd.service; then
 fi
 
 timedatectl status
-
