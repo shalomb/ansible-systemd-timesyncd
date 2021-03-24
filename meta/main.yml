@@ -12,9 +12,6 @@ galaxy_info:
   github_branch: master
 
   platforms:
-  - name: Fedora
-    versions:
-    - all
   - name: Debian
     versions:
     - stretch
