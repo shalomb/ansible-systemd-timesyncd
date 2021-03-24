@@ -1,13 +1,13 @@
 galaxy_info:
   author: Shalom Bhooshi
-  description: Pan-Net NFVi DevOps
-  company: DT Pan-Net
+  description: Role to configure systemd's timesyncd on debian-based systems.
+  company: DT Pan-Net DevOps
 
   issue_tracker_url: https://github.com/shalomb/ansible-systemd-timesyncd/issues
 
   license: Apache License, v2.0
 
-  min_ansible_version: 2.5
+  min_ansible_version: 2.8
 
   github_branch: master
 
@@ -17,15 +17,16 @@ galaxy_info:
     - all
   - name: Debian
     versions:
-    - 9
-    - 10
-  - name: Ubutu
+    - stretch
+    - buster
+    - bullseye
+    - sid
+  - name: Ubuntu
     versions:
-    - 16.04
-    - 18.04
+    - bionic
+    - xenial
 
   galaxy_tags:
-    - sntp
     - ntp
-    - systemd-timesyncd
+    - systemd
     - timesyncd
